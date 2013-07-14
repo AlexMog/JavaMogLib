@@ -81,8 +81,8 @@ public class Downloader {
 	 * @param destination The destination of the file to download
 	 * @throws Exception
 	 */
-	public static void downloadFile(String url, String destination) throws Exception {
-		downloadFile(url, destination, null, null);
+	public static void downloadFile(String sUrl, String destination) throws Exception {
+		downloadFile(sUrl, destination, null, null);
 	}
 	
 	/**
@@ -93,7 +93,7 @@ public class Downloader {
 	 * @param progressBar A progressBar to the file progression
 	 * @throws Exception
 	 */
-	public static void downloadFile(String url, String destination, JProgressBar progressBar) throws Exception {
-		downloadFile(url, destination, progressBar, null);
+	public static void downloadFile(String sUrl, String destination, JProgressBar progressBar) throws Exception {
+		downloadFile(sUrl, destination, progressBar, null);
 	}
 }

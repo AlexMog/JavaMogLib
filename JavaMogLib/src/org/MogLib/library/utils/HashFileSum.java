@@ -17,7 +17,7 @@ public class HashFileSum {
 	/**
 	 * Returns the SHA-1 encrypton of the file
 	 * 
-	 * @param File file The file who you want the SHA-1 encrypton
+	 * @param file The file who you want the SHA-1 encrypton
 	 * @return The SHA-1 encrypton
 	 * @throws Exception 
 	 */
@@ -42,7 +42,7 @@ public class HashFileSum {
 	/**
 	 * Returns the MD5 encrypton of the file
 	 * 
-	 * @param File file the file you want to know the MD5 encrypton
+	 * @param file the file you want to know the MD5 encrypton
 	 * @return The MD5 encrypton of the file
 	 * @throws Exception 
 	 */
