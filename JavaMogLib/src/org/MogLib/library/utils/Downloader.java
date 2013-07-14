@@ -24,6 +24,7 @@ public class Downloader {
 	 * @param url The url of the file to download
 	 * @param destination The destination of the file to download
 	 * @param progressBar A progress bar to see the progression download of the file
+	 * @param proxy A proxy object to select a proxy
 	 * @throws Exception
 	 */
 	public static void downloadFile(String sUrl, String destination, JProgressBar progressBar, Proxy proxy) throws Exception {
