@@ -15,6 +15,7 @@ public class FileUtils {
 	 * 
 	 * @author AlexMog (http://alexmog.tv/)
 	 */
+	private FileUtils() {/* Don't allow the instantiation of this class*/}
 	
 	/**
 	 * Used to copy file to destination
