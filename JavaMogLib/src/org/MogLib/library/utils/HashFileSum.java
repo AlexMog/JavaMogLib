@@ -26,7 +26,6 @@ public class HashFileSum {
 		
 		if (file.exists() && file.isFile() && file.canRead()) {
 			MessageDigest md = MessageDigest.getInstance("SHA-1");
-			@SuppressWarnings("resource")
 			DigestInputStream dis = new DigestInputStream(new FileInputStream(file), md);
 			dis.on(true);
 			
@@ -34,6 +33,7 @@ public class HashFileSum {
 
 			byte[] b = md.digest();
 			localSha1Sum = getHexString(b);
+			dis.close();
 		} else
 			throw new Exception("Impossible to open the file " + file.getAbsolutePath());
 	    return (localSha1Sum);
@@ -51,13 +51,13 @@ public class HashFileSum {
 	    
 	    if (file.exists() && file.isFile() && file.canRead()){
 			MessageDigest md = MessageDigest.getInstance("MD5");
-			@SuppressWarnings("resource")
 			DigestInputStream dis = new DigestInputStream(new FileInputStream(file), md);
 			dis.on(true);
 
 			while (dis.read() != -1);
 			byte[] b = md.digest();
 			localMd5Sum = getHexString(b);
+			dis.close();
 	    } else
 	    	throw new Exception("Impossible to open the file " + file.getAbsolutePath());
 	    return (localMd5Sum);
