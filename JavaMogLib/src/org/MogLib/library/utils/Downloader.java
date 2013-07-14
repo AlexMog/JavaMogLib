@@ -21,7 +21,7 @@ public class Downloader {
 	/**
 	 * Used to download file from url to destination
 	 * 
-	 * @param url The url of the file to download
+	 * @param sUrl The url of the file to download
 	 * @param destination The destination of the file to download
 	 * @param progressBar A progress bar to see the progression download of the file
 	 * @param proxy A proxy object to select a proxy
@@ -77,7 +77,7 @@ public class Downloader {
 	/**
 	 * Used to download file from url to destination
 	 * 
-	 * @param url The url of the file to download
+	 * @param sUrl The url of the file to download
 	 * @param destination The destination of the file to download
 	 * @throws Exception
 	 */
@@ -88,7 +88,7 @@ public class Downloader {
 	/**
 	 * Used to download file from url to destination
 	 * 
-	 * @param url The url of the file to download
+	 * @param sUrl The url of the file to download
 	 * @param destination The destination of the file to download
 	 * @param progressBar A progressBar to the file progression
 	 * @throws Exception
