@@ -1,82 +1,80 @@
 package org.MogLib.library.utils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.security.DigestInputStream;
+import java.io.RandomAccessFile;
 import java.security.MessageDigest;
 
 public class HashFileSum {
 	/**
 	 * HashFile methods
-	 * Thoes methods are not mine, thx to Mr-Hide to have done it.
 	 *
-	 * @author Mr-Hide (JB, http://www.mrhide.fr), Adapted by AlexMog (http://alexmog.tv/)
+	 * @author AlexMog (http://alexmog.tv/)
 	 */
 	private HashFileSum() { /* Don't allow the instantiation of this class */};
-	
+
 	/**
-	 * Returns the SHA-1 encrypton of the file
+	 * Returns the MD5 hash of the file
 	 * 
-	 * @param file The file who you want the SHA-1 encrypton
-	 * @return The SHA-1 encrypton
-	 * @throws Exception 
+	 * @param file The file to calculate the MD5 sum
+	 * @return The MD5 hash
+	 * @throws Exception
 	 */
-	public static String sha1sum(File file) throws Exception{
-		String localSha1Sum = null;
+	public static String md5sum(String file) throws Exception {
+		byte[] data = readFile(file);
+		MessageDigest md = MessageDigest.getInstance("MD5");
+		md.update(data);
+		byte[] digest = md.digest();
 		
-		if (file.exists() && file.isFile() && file.canRead()) {
-			MessageDigest md = MessageDigest.getInstance("SHA-1");
-			DigestInputStream dis = new DigestInputStream(new FileInputStream(file), md);
-			dis.on(true);
-			
-			while (dis.read() != -1);
-
-			byte[] b = md.digest();
-			localSha1Sum = getHexString(b);
-			dis.close();
-		} else
-			throw new Exception("Impossible to open the file " + file.getAbsolutePath());
-	    return (localSha1Sum);
-	}
-	
-	/**
-	 * Returns the MD5 encrypton of the file
-	 * 
-	 * @param file the file you want to know the MD5 encrypton
-	 * @return The MD5 encrypton of the file
-	 * @throws Exception 
-	 */
-	public static String md5sum(File file) throws Exception {
-	    String localMd5Sum = null;
-	    
-	    if (file.exists() && file.isFile() && file.canRead()){
-			MessageDigest md = MessageDigest.getInstance("MD5");
-			DigestInputStream dis = new DigestInputStream(new FileInputStream(file), md);
-			dis.on(true);
-
-			while (dis.read() != -1);
-			byte[] b = md.digest();
-			localMd5Sum = getHexString(b);
-			dis.close();
-	    } else
-	    	throw new Exception("Impossible to open the file " + file.getAbsolutePath());
-	    return (localMd5Sum);
-	}
-	
-	/**
-	 * Used to convert the byte value to Hex value
-	 * 
-	 * @param bytes the bytes
-	 * @return HexValue calculated
-	 */
-	private static String getHexString(byte[] bytes) {
-		StringBuilder sb = new StringBuilder(bytes.length * 2);
-		for (byte b : bytes) {
-			if (b <= 0x0F && b >= 0x00) {
-				sb.append('0');
-	        }
-			sb.append( String.format("%x", b) );
+		StringBuffer hashString = new StringBuffer();
+		for (int i = 0; i < digest.length; i++) {
+			String hex = Integer.toHexString(digest[i]);
+			if (hex.length() == 1) {
+				hashString.append('0');
+				hashString.append(hex.charAt(hex.length() - 1));
+			}else
+				hashString.append(hex.substring(hex.length() - 2));
 		}
-		return sb.toString();
+		
+		return (hashString.toString());
+	}
+	
+	/**
+	 * Returns the SHA-1 hash of the file
+	 * 
+	 * @param file The file to calculate the SHA-1 sum
+	 * @return The SHA-1 hash
+	 * @throws Exception
+	 */
+	public static String sha1sum(String file) throws Exception {
+		byte[] data = readFile(file);
+		MessageDigest md = MessageDigest.getInstance("SHA");
+		md.update(data);
+		byte[] digest = md.digest();
+		
+		StringBuffer hashString = new StringBuffer();
+		for (int i = 0; i < digest.length; i++) {
+			String hex = Integer.toHexString(digest[i]);
+			if (hex.length() == 1) {
+				hashString.append('0');
+				hashString.append(hex.charAt(hex.length() - 1));
+			}else
+				hashString.append(hex.substring(hex.length() - 2));
+		}
+		
+		return (hashString.toString());
+	}
+
+	/**
+	 * Used to read the file fully
+	 * @param filename the file to read
+	 * @return datas readed
+	 * @throws Exception
+	 */
+	private static byte[] readFile(String filename) throws Exception {
+		RandomAccessFile raf = new RandomAccessFile(filename, "r");
+		byte[] data = new byte[(int)raf.length()];
+		raf.readFully(data);
+		raf.close();
+		
+		return (data);
 	}
 }
