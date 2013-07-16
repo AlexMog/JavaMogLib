@@ -25,17 +25,22 @@ public class FileUtils {
 	 * @param progressBar A progress bar to see the progression of the file
 	 * @throws IOException 
 	 */
-	public static void copyFile(String file, String destination, JProgressBar progressBar) throws IOException {
+	public static void copyFile(File file, File destination, JProgressBar progressBar) throws IOException {
 		InputStream is;
 		OutputStream os;
 		byte[] buff = new byte[1024];
 		int readed = 0;
 		
-		is = new FileInputStream(new File(file));
-		os = new FileOutputStream(new File(destination));
+		if (file.isDirectory()) {
+			destination.mkdirs();
+			return ;
+		}
+		
+		is = new FileInputStream(file);
+		os = new FileOutputStream(destination);
 		
 		if (progressBar != null)
-			progressBar.setMaximum(progressBar.getMaximum() + file.length());
+			progressBar.setMaximum((int) (progressBar.getMaximum() + file.length()));
 		
 		while ((readed = is.read(buff)) != -1) {
 			os.write(buff);
@@ -55,7 +60,7 @@ public class FileUtils {
 	 * @param destination The destination where he will be copied
 	 * @throws IOException A progress bar to see the progression of the file
 	 */
-	public static void copyFile(String file, String destination) throws IOException {
+	public static void copyFile(File file, File destination) throws IOException {
 		copyFile(file, destination, null);
 	}
 }

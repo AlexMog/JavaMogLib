@@ -15,35 +15,50 @@ public class DirUtils {
 	 * Function used to generate a list of files contained in the directory and sub-directories
 	 * 
 	 * @param path The path of the directory
-	 * @param recurcive Set it to true to use recursivity
 	 * @return An ArrayList<String> containing the files
 	 * @throws Exception
 	 */
-	public static ArrayList<String> readDir(File path, boolean recurcive) throws Exception {
+	public static ArrayList<String> readDir(File path) throws Exception {
 		ArrayList<String> listFiles = new ArrayList<String>();
+		String currentFilePath;
+		File[] list;
 		
-		if (path.isDirectory() && recurcive) {
-		    File[] list = path.listFiles();
+		if (path.isDirectory()) {
+		    list = path.listFiles();
+		    
 		    if (list != null) {
 				for (int i = 0; i < list.length; i++)
-				    listFiles.addAll(readDir(list[i], recurcive));
+				    listFiles.addAll(readDir(list[i]));
 		    } else
 		    	throw new Exception("File read error");
 		} else if (!path.isDirectory()) {
-		    String currentFilePath = path.getAbsolutePath();
+		    currentFilePath = path.getAbsolutePath();
 		    listFiles.add(currentFilePath);
 		}
 		return (listFiles);
     }
 	
 	/**
-	 * Function used to generate a list of files contained in the directory and sub-directories
+	 * Used to copy a dir
 	 * 
-	 * @param path The path of the directory
-	 * @return An ArrayList<String> containing the files
+	 * @param dir The dir to copy
+	 * @param destination The destination of the dir
 	 * @throws Exception
 	 */
-	public static ArrayList<String> readDir(File path) throws Exception {
-		return (readDir(path, true));
+	public static void copyDir(File dir, File destination) throws Exception {
+		ArrayList<String> files = readDir(dir);
+		File file;
+		File d;
+		
+		if (!dir.isDirectory() || !destination.isDirectory())
+			throw new Exception("Dir or Destination is not a directory.");
+		
+		for(String sFile : files) {
+			file = new File(destination.getAbsolutePath() + sFile.replace(dir.getAbsolutePath(), ""));
+			d = file.getParentFile();
+			if (!d.exists())
+				d.mkdirs();
+			FileUtils.copyFile(new File(sFile), file);
+		}
 	}
 }
